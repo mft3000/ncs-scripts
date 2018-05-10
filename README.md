@@ -2,6 +2,12 @@
  
 these scripts are written to make your life easy and could be used for daily jobs around Cisco NSO.
 
++ addHost.py
+
+```
+python script that using MAAGIC APIs in order to create (or delete) devices under NSO from yaml file
+```
+
 + cvenv.sh
 
 helps you to quick stop NSO, renew symlinks for ncs and ncs-run with cli arguments and restart NSO... usefull when you need to share your environment with other users or simply you want test different workspaces with different NSO versions
