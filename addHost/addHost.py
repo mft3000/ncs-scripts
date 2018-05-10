@@ -13,11 +13,23 @@ class addHost(object):
 	file = ''
 	
 	def __init__(self, file=''):
+		
+		'''
+		pass file name to class init
+		'''
+	
 		self.file = file
 		# self.file_to_json()
 		self.yaml_to_json()
 		
 	def file_to_json(self):
+	
+		'''
+		deprecated... usefull if you pass a file like
+		
+		cpe11,172.16.1.55,23,cpe,cli,cisco-ios,telnet,unlocked
+		cpe21,172.16.1.56,23,cpe,cli,cisco-ios,telnet,unlocked
+		'''
 	
 		with open(self.file) as lines:
 			for i,line in enumerate(lines):
@@ -34,11 +46,20 @@ class addHost(object):
 				self.json[i]["state"] = line.split(',')[7]
 	
 	def yaml_to_json(self):
+	
+		'''
+		file -> yaml -> self.json
+		'''
 
 		with open(self.file) as lines:
 			self.json = yaml.load(lines)
 	
 	def delete_all_devices(self):
+	
+		'''
+		delete all the devices listed in yaml file
+		'''
+	
 		with ncs.maapi.Maapi() as m:
 			with ncs.maapi.Session(m, 'admin', 'python'):
 				with m.start_write_trans() as t:
@@ -51,6 +72,11 @@ class addHost(object):
 					t.apply()
 		
 	def write_nso(self):
+	
+		'''
+		create devices inside nso
+		'''
+	
 		with ncs.maapi.Maapi() as m:
 			with ncs.maapi.Session(m, 'admin', 'python'):
 				with m.start_write_trans() as t:
