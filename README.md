@@ -4,9 +4,7 @@ these scripts are written to make your life easy and could be used for daily job
 
 + addHost.py
 
-```
 python script that using MAAGIC APIs in order to create (or delete) devices under NSO from yaml file
-```
 
 + cvenv.sh
 
