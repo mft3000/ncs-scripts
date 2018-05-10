@@ -1,7 +1,7 @@
 import ncs.maapi
 import ncs.maagic
 from ncs.dp import Action
-import json, argparse, yaml
+import json, argparse, yaml, logging
 from collections import defaultdict 
 
 def tree(): 
@@ -67,6 +67,8 @@ class addHost(object):
 										
 					# for i in self.json:
 					for i,el in enumerate(self.json):
+						print "deleting device from NSO",
+						print self.json[i]["name"]
 						del root.devices.device[self.json[i]["name"]]
 						
 					t.apply()
@@ -84,6 +86,8 @@ class addHost(object):
 										
 					# for i in self.json:
 					for i,el in enumerate(self.json):
+						print "creating device from NSO",
+						print self.json[i]["name"]					
 						root.devices.device.create(self.json[i]["name"])
 						root.devices.device[self.json[i]["name"]].address = self.json[i]["ip"]
 						root.devices.device[self.json[i]["name"]].port = int(self.json[i]["port"])
