@@ -1,7 +1,7 @@
 import ncs.maapi
 import ncs.maagic
 from ncs.dp import Action
-import json, argparse
+import json, argparse, yaml
 from collections import defaultdict 
 
 def tree(): 
@@ -14,7 +14,8 @@ class addHost(object):
 	
 	def __init__(self, file=''):
 		self.file = file
-		self.file_to_json()
+		# self.file_to_json()
+		self.yaml_to_json()
 		
 	def file_to_json(self):
 	
@@ -31,6 +32,23 @@ class addHost(object):
 				self.json[i]["ned_id"] = line.split(',')[5]
 				self.json[i]["protocol"] = line.split(',')[6]
 				self.json[i]["state"] = line.split(',')[7]
+	
+	def yaml_to_json(self):
+
+		with open(self.file) as lines:
+			self.json = yaml.load(lines)
+	
+	def delete_all_devices(self):
+		with ncs.maapi.Maapi() as m:
+			with ncs.maapi.Session(m, 'admin', 'python'):
+				with m.start_write_trans() as t:
+					root = ncs.maagic.get_root(t)
+										
+					# for i in self.json:
+					for i,el in enumerate(self.json):
+						del root.devices.device[self.json[i]["name"]]
+						
+					t.apply()
 		
 	def write_nso(self):
 		with ncs.maapi.Maapi() as m:
@@ -38,7 +56,8 @@ class addHost(object):
 				with m.start_write_trans() as t:
 					root = ncs.maagic.get_root(t)
 										
-					for i in self.json:
+					# for i in self.json:
+					for i,el in enumerate(self.json):
 						root.devices.device.create(self.json[i]["name"])
 						root.devices.device[self.json[i]["name"]].address = self.json[i]["ip"]
 						root.devices.device[self.json[i]["name"]].port = int(self.json[i]["port"])
@@ -54,12 +73,19 @@ class addHost(object):
 						
 def main():
 	parser = argparse.ArgumentParser(description='')
-	parser.add_argument('-f','--file', default='add.conf', help='')
+	parser.add_argument('-f','--file', default='add.yaml', help='')
+	parser.add_argument('-c','--create', action='store_true', help='')
+	parser.add_argument('-d','--delete', action='store_true', help='')
 	
 	args = parser.parse_args()
 	
 	H = addHost(args.file)
-	H.write_nso()
+	if args.delete:
+		H.delete_all_devices()
+	elif args.create:
+		H.write_nso()
+	else:
+		print 'exit(): nothing to do'
 	
 	
 if __name__ == "__main__":
