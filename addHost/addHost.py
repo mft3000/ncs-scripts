@@ -88,6 +88,7 @@ class addHost(object):
 						root.devices.device[self.json[i]["name"]].address = self.json[i]["ip"]
 						root.devices.device[self.json[i]["name"]].port = int(self.json[i]["port"])
 						root.devices.device[self.json[i]["name"]].authgroup = self.json[i]["auth"]
+						root.devices.device[self.json[i]["name"]].description = str(self.json[i]["description"].replace('_',' '))
 						# root.devices.device[self.json[i]["name"]].device_type.ne_type = self.json[i]["ne_type"]
 						root.devices.device[self.json[i]["name"]].device_type.cli.create()
 						root.devices.device[self.json[i]["name"]].device_type.cli.ned_id = 'ios-id:' + self.json[i]["ned_id"]
