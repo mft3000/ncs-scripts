@@ -1,30 +1,34 @@
-- name: rm-prova-ar5011
+- name: ud-prova-pe501
   ip: 172.16.1.51
   port: 23
+  description: pe_primary
   auth: fw
   ne_type: cli
   ned_id: cisco-ios
   protocol: telnet
   state: unlocked
-- name: rm-prova-ar5011
+- name: ud-prova-pe502
   ip: 172.16.1.52
   port: 23
+  description: pe_secondary
   auth: fw
   ne_type: cli
   ned_id: cisco-ios
   protocol: telnet
   state: unlocked
-- name: cpe11
+- name: cpe1
   ip: 172.16.1.55
   port: 23
+  description: cpe_primary
   auth: cpe
   ne_type: cli
   ned_id: cisco-ios
   protocol: telnet
   state: unlocked
-- name: cpe21
+- name: cpe2
   ip: 172.16.1.56
   port: 23
+  description: cpe_secondary
   auth: cpe
   ne_type: cli
   ned_id: cisco-ios
